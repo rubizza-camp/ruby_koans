@@ -15,10 +15,26 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 class Proxy
   def initialize(target_object)
     @object = target_object
-    # ADD MORE CODE HERE
+    @messages = {}
+    @messages.default = 0
   end
 
-  # WRITE CODE HERE
+  def messages
+    @messages.keys
+  end
+
+  def called?(method_name)
+    @messages.key?(method_name)
+  end
+
+  def number_of_times_called(method_name)
+    @messages[method_name]
+  end
+
+  def method_missing(method_name, *args, &block)
+    @messages[method_name] += 1
+    @object.send(method_name, *args, &block)
+  end
 end
 
 # The proxy object should pass the following Koan:
@@ -83,12 +99,12 @@ class AboutProxyObjectProject < Neo::Koan
   end
 
   def test_proxy_can_record_more_than_just_tv_objects
-    proxy = Proxy.new("Code Mash 2009")
+    proxy = Proxy.new('Code Mash 2009')
 
     proxy.upcase!
     result = proxy.split
 
-    assert_equal ["CODE", "MASH", "2009"], result
+    assert_equal %w[CODE MASH 2009], result
     assert_equal [:upcase!, :split], proxy.messages
   end
 end
