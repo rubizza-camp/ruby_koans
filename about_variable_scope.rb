@@ -1,17 +1,17 @@
+# frozen_string_literal: true
+
 require File.expand_path(File.dirname(__FILE__) + '/neo')
 
+# class
 class AboutVariableScope < Neo::Koan
-
   def bark
     noise = 'RUFF'
   end
 
   def test_noise_is_not_available_in_the_current_scope
-
     assert_raise(NameError) do
       noise
     end
-
   end
 
   def test_we_can_get_noise_by_calling_method
@@ -28,7 +28,7 @@ class AboutVariableScope < Neo::Koan
 
   def test_blocks_can_access_variables_outside_scope
     test = 'Hi'
-    (1..2).each do
+    2.times do
       test = 'Hey'
     end
 
@@ -36,7 +36,7 @@ class AboutVariableScope < Neo::Koan
   end
 
   def test_block_variables_cannot_be_accessed_outside_scope
-    (1..2).each do
+    2.times do
       x = 0
     end
     assert_equal nil, defined? x
@@ -54,11 +54,9 @@ class AboutVariableScope < Neo::Koan
       @@total += 1
     end
 
-    def name
-      @name
-    end
+    attr_reader :name
 
-    def Mouse.count
+    def self.count
       @@total
     end
   end
@@ -69,7 +67,7 @@ class AboutVariableScope < Neo::Koan
   end
 
   def test_class_variable
-    (1..9).each { |i| Mouse.new('#{i}') }
+    (1..9).each { |_i| Mouse.new('#{i}') }
     # Things may appear easier than they actually are.
     assert_equal 10, Mouse.count
   end
@@ -77,35 +75,32 @@ class AboutVariableScope < Neo::Koan
   # Meditate on the following:
   # What is the difference between a class variable and instance variable?
 
-  # ------------------------------------------------------
-
-  $anywhere = 'Anywhere'
+  ANYWHERE = 'Anywhere'
   # Global variables are prefixed with the '$' character.
 
   def test_global_variables_can_be_accessed_from_any_scope
-    assert_equal 'Anywhere', $anywhere
+    assert_equal 'Anywhere', ANYWHERE
   end
 
   def test_global_variables_can_be_changed_from_any_scope
     # From within a method
-    $anywhere = 'Here'
-    assert_equal 'Here', $anywhere
+    ANYWHERE = 'Here'
+    assert_equal 'Here', ANYWHERE
   end
 
   def test_global_variables_retain_value_from_last_change
-    # What is $anywhere?
-    assert_equal 'Here', $anywhere
+    # What is ANYWHERE?
+    assert_equal 'Here', ANYWHERE
   end
 
   def test_global_variables_can_be_changed_from_any_scope_2
     # From within a block
-    (1..2).each do
-      $anywhere = 'Hey'
+    2.times do
+      ANYWHERE = 'Hey'
     end
 
-    assert_equal 'Hey', $anywhere
+    assert_equal 'Hey', ANYWHERE
   end
-
 end
 
 # THINK ABOUT IT:

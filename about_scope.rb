@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require File.expand_path(File.dirname(__FILE__) + '/neo')
 
+# class
 class AboutScope < Neo::Koan
   module Jims
     class Dog

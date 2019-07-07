@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 include Java
@@ -111,7 +113,7 @@ class AboutJavaInterop < Neo::Koan
   def test_java_collections_are_enumerable
     java_array = java.util.ArrayList.new
     java_array << 'one' << 'two' << 'three'
-    assert_equal __, java_array.map { |item| item.upcase }
+    assert_equal __, java_array.map(&:upcase)
   end
 
   # ------------------------------------------------------------------
@@ -129,9 +131,8 @@ class AboutJavaInterop < Neo::Koan
 
   def test_java_class_are_open_from_ruby
     java_array = java.util.ArrayList.new
-    java_array.add_all([1,2,3,4,5])
+    java_array.add_all([1, 2, 3, 4, 5])
 
     assert_equal __, java_array.multiply_all
   end
-
 end

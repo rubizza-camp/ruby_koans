@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require File.expand_path(File.dirname(__FILE__) + '/neo')
 
+# class
 class AboutModules < Neo::Koan
   module Nameable
     def set_name(new_name)

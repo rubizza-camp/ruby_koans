@@ -1,5 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/neo')
 
+# class
 class AboutStrings < Neo::Koan
   def test_double_quoted_strings_are_strings
     string = 'Hello, World'
@@ -29,30 +30,30 @@ class AboutStrings < Neo::Koan
 
   def test_use_flexible_quoting_to_handle_really_hard_cases
     a = %(flexible quotes can handle both ' and " characters)
-    b = %!flexible quotes can handle both ' and " characters!
-    c = %{flexible quotes can handle both ' and " characters}
+    b = %(flexible quotes can handle both ' and " characters)
+    c = %(flexible quotes can handle both ' and " characters)
     assert_equal true, a == b
     assert_equal true, a == c
   end
 
   def test_flexible_quotes_can_handle_multiple_lines
-    long_string = %{
+    long_string = %(
 It was the best of times,
 It was the worst of times.
-}
+)
     assert_equal 54, long_string.length
     assert_equal 3, long_string.lines.count
-    assert_equal "\n", long_string[0,1]
+    assert_equal "\n", long_string[0, 1]
   end
 
   def test_here_documents_can_also_handle_multiple_lines
-    long_string = <<EOS
-It was the best of times,
-It was the worst of times.
-EOS
+    long_string = <<~EOS
+      It was the best of times,
+      It was the worst of times.
+    EOS
     assert_equal 53, long_string.length
     assert_equal 2, long_string.lines.count
-    assert_equal 'I', long_string[0,1]
+    assert_equal 'I', long_string[0, 1]
   end
 
   def test_plus_will_concatenate_two_strings
@@ -139,7 +140,7 @@ EOS
 
   def test_you_can_get_a_substring_from_a_string
     string = 'Bacon, lettuce and tomato'
-    assert_equal 'let', string[7,3]
+    assert_equal 'let', string[7, 3]
     assert_equal 'let', string[7..9]
   end
 
@@ -152,17 +153,17 @@ EOS
 
   in_ruby_version('1.8') do
     def test_in_older_ruby_single_characters_are_represented_by_integers
-      assert_equal __, ?a
-      assert_equal __, ?a == 97
+      assert_equal __, 'a'
+      assert_equal __, 'a' == 97
 
-      assert_equal __, ?b == (?a + 1)
+      assert_equal __, ('a' + 1) == 'b'
     end
   end
 
   in_ruby_version('1.9', '2') do
     def test_in_modern_ruby_single_characters_are_represented_by_strings
-      assert_equal 'a', ?a
-      assert_equal false, ?a == 97
+      assert_equal 'a', 'a'
+      assert_equal false, 'a' == 97
     end
   end
 
